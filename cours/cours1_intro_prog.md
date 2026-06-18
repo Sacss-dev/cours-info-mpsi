@@ -2,7 +2,7 @@
 
 Résumé et compléments sur les bases de la programmation OCaml généralement utilisées en TP.
 
-- [Chapitre 1 : Bases de programmation — OCaml (MPSI)](#chapitre-1-bases-de-programmation-ocaml-mpsi)
+
   - [Partie A : Bases générales du OCaml](#partie-a-bases-générales-du-ocaml)
     - [I. Fonctionnement général d'un programme](#i-fonctionnement-général-dun-programme)
     - [II. Types de base](#ii-types-de-base)

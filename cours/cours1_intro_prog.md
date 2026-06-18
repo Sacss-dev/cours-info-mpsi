@@ -2,6 +2,29 @@
 
 Résumé et compléments sur les bases de la programmation OCaml généralement utilisées en TP.
 
+- [Chapitre 1 : Bases de programmation — OCaml (MPSI)](#chapitre-1-bases-de-programmation-ocaml-mpsi)
+  - [Partie A : Bases générales du OCaml](#partie-a-bases-générales-du-ocaml)
+    - [I. Fonctionnement général d'un programme](#i-fonctionnement-général-dun-programme)
+    - [II. Types de base](#ii-types-de-base)
+    - [III. Conditions](#iii-conditions)
+  - [Partie B : Programmation fonctionnelle](#partie-b-programmation-fonctionnelle)
+    - [I. Variables](#i-variables)
+    - [II. Fonctions](#ii-fonctions)
+    - [III. Structures de données](#iii-structures-de-données)
+  - [Partie C : Programmation impérative](#partie-c-programmation-impérative)
+    - [I. Séquence](#i-séquence)
+    - [II. Boucles](#ii-boucles)
+    - [III. Tableaux — `'a array`](#iii-tableaux-a-array)
+    - [IV. Chaînes de caractères — `string`](#iv-chaînes-de-caractères-string)
+    - [V. Interactions avec l'utilisateur](#v-interactions-avec-lutilisateur)
+  - [Partie D : Déclaration de types](#partie-d-déclaration-de-types)
+    - [I. Type somme](#i-type-somme)
+    - [II. Type produit (enregistrement)](#ii-type-produit-enregistrement)
+    - [III. Types récursifs](#iii-types-récursifs)
+  - [Annexe : Récapitulatif général](#annexe-récapitulatif-général)
+    - [Types de base](#types-de-base)
+    - [Mots-clés essentiels](#mots-clés-essentiels)
+
 ---
 
 ## Partie A : Bases générales du OCaml

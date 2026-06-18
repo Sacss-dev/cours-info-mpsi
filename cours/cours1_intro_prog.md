@@ -2,28 +2,40 @@
 
 Résumé et compléments sur les bases de la programmation OCaml généralement utilisées en TP.
 
+---
 
-  - [Partie A : Bases générales du OCaml](#partie-a-bases-générales-du-ocaml)
-    - [I. Fonctionnement général d'un programme](#i-fonctionnement-général-dun-programme)
-    - [II. Types de base](#ii-types-de-base)
-    - [III. Conditions](#iii-conditions)
-  - [Partie B : Programmation fonctionnelle](#partie-b-programmation-fonctionnelle)
-    - [I. Variables](#i-variables)
-    - [II. Fonctions](#ii-fonctions)
-    - [III. Structures de données](#iii-structures-de-données)
-  - [Partie C : Programmation impérative](#partie-c-programmation-impérative)
-    - [I. Séquence](#i-séquence)
-    - [II. Boucles](#ii-boucles)
-    - [III. Tableaux — `'a array`](#iii-tableaux-a-array)
-    - [IV. Chaînes de caractères — `string`](#iv-chaînes-de-caractères-string)
-    - [V. Interactions avec l'utilisateur](#v-interactions-avec-lutilisateur)
-  - [Partie D : Déclaration de types](#partie-d-déclaration-de-types)
-    - [I. Type somme](#i-type-somme)
-    - [II. Type produit (enregistrement)](#ii-type-produit-enregistrement)
-    - [III. Types récursifs](#iii-types-récursifs)
-  - [Annexe : Récapitulatif général](#annexe-récapitulatif-général)
-    - [Types de base](#types-de-base)
-    - [Mots-clés essentiels](#mots-clés-essentiels)
+## Sommaire
+
+- [Partie A : Bases générales du OCaml](#partie-a-bases-generales-du-ocaml)
+  - [I. Fonctionnement général d'un programme](#i-fonctionnement-general-dun-programme)
+  - [II. Types de base](#ii-types-de-base)
+    - [1. Caractères — `char`](#1-caracteres-char)
+    - [2. Entiers — `int`](#2-entiers-int)
+    - [3. Flottants — `float`](#3-flottants-float)
+    - [4. Booléens — `bool`](#4-booleens-bool)
+    - [5. Exceptions](#5-exceptions)
+  - [III. Conditions](#iii-conditions)
+    - [1. Instruction conditionnelle](#1-instruction-conditionnelle)
+    - [2. Filtrage par motif (`match`)](#2-filtrage-par-motif-match)
+- [Partie B : Programmation fonctionnelle](#partie-b-programmation-fonctionnelle)
+  - [I. Variables](#i-variables)
+  - [II. Fonctions](#ii-fonctions)
+  - [III. Structures de données](#iii-structures-de-donnees)
+    - [1. Tuples (n-uplets)](#1-tuples-n-uplets)
+    - [2. Listes chaînées — `'a list`](#2-listes-chainees-a-list)
+- [Partie C : Programmation impérative](#partie-c-programmation-imperative)
+  - [I. Séquence](#i-sequence)
+  - [II. Boucles](#ii-boucles)
+  - [III. Tableaux — `'a array`](#iii-tableaux-a-array)
+  - [IV. Chaînes de caractères — `string`](#iv-chaines-de-caracteres-string)
+  - [V. Interactions avec l'utilisateur](#v-interactions-avec-lutilisateur)
+- [Partie D : Déclaration de types](#partie-d-declaration-de-types)
+  - [I. Type somme](#i-type-somme)
+  - [II. Type produit (enregistrement)](#ii-type-produit-enregistrement)
+  - [III. Types récursifs](#iii-types-recursifs)
+- [Annexe : Récapitulatif général](#annexe-recapitulatif-general)
+  - [Types de base](#types-de-base)
+  - [Mots-clés essentiels](#mots-cles-essentiels)
 
 ---
 
@@ -55,7 +67,7 @@ OCaml est un langage à typage **statique**, **fort** et **inféré** : le compi
 Un caractère est délimité par des **apostrophes**. Il est encodé selon la table ASCII (1 octet).
 
 ```ocaml
-let c = 'A'          (* type : char *)
+let c = 'A'            (* type : char *)
 let n = Char.code 'A'  (* → 65 : code ASCII de 'A' *)
 let c = Char.chr 65    (* → 'A' : caractère de code ASCII 65 *)
 ```
@@ -211,9 +223,9 @@ Le filtrage est plus puissant et lisible qu'une suite de `if...else`. Il permet 
 (* Filtrage sur un entier *)
 let description_note n =
   match n with
-  | 20         -> "Parfait !"
+  | 20             -> "Parfait !"
   | n when n >= 10 -> "Reçu"   (* clause gardée *)
-  | _          -> "Ajourné"    (* joker : correspond à tout *)
+  | _              -> "Ajourné"    (* joker : correspond à tout *)
 
 (* Filtrage sur une liste *)
 let premier_element lst =
@@ -237,6 +249,98 @@ let est_voyelle c =
 | Clause multiple | `\| a \| b -> expr` | Correspond à `a` ou `b` |
 
 > ⚠️ Le compilateur avertit si le filtrage est **non exhaustif** (cas non couverts) ou si une clause est **inaccessible** (jamais atteinte).
+
+---
+
+### 🟢 Exercices — Partie A
+
+**Exercice A.1 — Types de base** ⭐
+
+Sans exécuter le code, donnez le type et la valeur de chaque expression :
+
+```ocaml
+let a = 7 / 2
+let b = 7 mod 2
+let c = 7.0 /. 2.0
+let d = not (3 > 2)
+let e = 'A' = 'a'
+let f = Char.code 'z' - Char.code 'a'
+```
+
+---
+
+**Exercice A.2 — Conversions et calculs** ⭐
+
+Écrivez une fonction `hypotenuse : float -> float -> float` qui prend les longueurs de deux côtés d'un triangle rectangle et renvoie la longueur de l'hypoténuse.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let hypotenuse a b = sqrt (a *. a +. b *. b)
+(* Exemple : hypotenuse 3.0 4.0 → 5.0 *)
+```
+</details>
+
+---
+
+**Exercice A.3 — Conditionnelle** ⭐⭐
+
+Écrivez une fonction `max3 : int -> int -> int -> int` qui renvoie le maximum de trois entiers, en utilisant uniquement `if...then...else`.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let max3 a b c =
+  if a >= b && a >= c then a
+  else if b >= c then b
+  else c
+```
+</details>
+
+---
+
+**Exercice A.4 — Filtrage** ⭐⭐
+
+Écrivez une fonction `jour_semaine : int -> string` qui prend un entier de 1 à 7 et renvoie le nom du jour correspondant (`1` = `"Lundi"`, …, `7` = `"Dimanche"`). Elle doit lever `Invalid_argument "jour invalide"` pour tout autre entier.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let jour_semaine n =
+  match n with
+  | 1 -> "Lundi"
+  | 2 -> "Mardi"
+  | 3 -> "Mercredi"
+  | 4 -> "Jeudi"
+  | 5 -> "Vendredi"
+  | 6 -> "Samedi"
+  | 7 -> "Dimanche"
+  | _ -> invalid_arg "jour invalide"
+```
+</details>
+
+---
+
+**Exercice A.5 — Exceptions** ⭐⭐⭐
+
+Écrivez une fonction `divise_ou_zero : int -> int -> int` qui renvoie le quotient entier de `a` par `b`, ou `0` si `b = 0`, sans utiliser de `if`. Puis écrivez `divise_ou_defaut : int -> int -> int -> int` qui prend en plus une valeur par défaut.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let divise_ou_zero a b =
+  try a / b
+  with Division_by_zero -> 0
+
+let divise_ou_defaut a b defaut =
+  try a / b
+  with Division_by_zero -> defaut
+```
+</details>
 
 ---
 
@@ -266,12 +370,12 @@ let a = 1 and b = 2   (* a et b sont évalués dans le même environnement *)
 #### Fonctions de conversion
 
 ```ocaml
-float_of_int 3        (* → 3.0 *)
-int_of_float 3.9      (* → 3   : troncature vers zéro *)
-string_of_int 42      (* → "42" *)
-int_of_string "42"    (* → 42  *)
-float_of_string "3.14"(* → 3.14 *)
-string_of_float 3.14  (* → "3.14" *)
+float_of_int 3         (* → 3.0 *)
+int_of_float 3.9       (* → 3   : troncature vers zéro *)
+string_of_int 42       (* → "42" *)
+int_of_string "42"     (* → 42  *)
+float_of_string "3.14" (* → 3.14 *)
+string_of_float 3.14   (* → "3.14" *)
 ```
 
 | Fonction | Conversion |
@@ -329,7 +433,7 @@ let add x y = x + y
 Une fonction est **polymorphe** si elle fonctionne pour plusieurs types.
 
 ```ocaml
-let identite x = x    (* type : 'a -> 'a *)
+let identite x = x             (* type : 'a -> 'a *)
 let compose f g x = f (g x)   (* type : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c *)
 ```
 
@@ -424,6 +528,128 @@ let rec longueur lst =
 | Transformer | `List.map f lst` | `List.map (fun x -> x*2) [1;2;3]` → `[2;4;6]` |
 | Filtrer | `List.filter p lst` | `List.filter (fun x -> x > 2) [1;2;3]` → `[3]` |
 | Réduire | `List.fold_left f acc lst` | `List.fold_left (+) 0 [1;2;3]` → `6` |
+
+---
+
+### 🟢 Exercices — Partie B
+
+**Exercice B.1 — Variables locales** ⭐
+
+Écrivez une fonction `aire_anneau : float -> float -> float` qui calcule l'aire d'un anneau (différence de deux disques) à partir des rayons intérieur et extérieur. Utilisez des variables locales avec `let...in`.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let aire_anneau r_int r_ext =
+  let pi = Float.pi in
+  let aire_ext = pi *. r_ext *. r_ext in
+  let aire_int = pi *. r_int *. r_int in
+  aire_ext -. aire_int
+```
+</details>
+
+---
+
+**Exercice B.2 — Application partielle** ⭐⭐
+
+À partir de la fonction `multiplie_par : int -> int -> int`, définissez en une ligne (sans `fun`) les fonctions `double`, `triple` et `fois_dix`. Vérifiez mentalement leur type.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let multiplie_par n x = n * x
+let double   = multiplie_par 2   (* int -> int *)
+let triple   = multiplie_par 3
+let fois_dix = multiplie_par 10
+```
+</details>
+
+---
+
+**Exercice B.3 — Récursivité sur les listes** ⭐⭐
+
+Écrivez les fonctions suivantes **sans utiliser le module `List`**, par récursion et filtrage :
+
+- `maximum : int list -> int` — renvoie le maximum d'une liste non vide (lever une exception si vide)
+- `appartient : 'a -> 'a list -> bool` — teste si un élément est dans la liste
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec maximum = function
+  | []  -> failwith "liste vide"
+  | [x] -> x
+  | x :: xs -> max x (maximum xs)
+
+let rec appartient elt = function
+  | []      -> false
+  | x :: xs -> x = elt || appartient elt xs
+```
+</details>
+
+---
+
+**Exercice B.4 — Fonctions d'ordre supérieur** ⭐⭐
+
+Écrivez `appliquer_n_fois : ('a -> 'a) -> int -> 'a -> 'a` qui applique une fonction `f` exactement `n` fois à une valeur `x`.
+
+Vérifiez avec `appliquer_n_fois (fun x -> x * 2) 5 1` (doit valoir `32`).
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec appliquer_n_fois f n x =
+  if n = 0 then x
+  else appliquer_n_fois f (n - 1) (f x)
+
+let _ = appliquer_n_fois (fun x -> x * 2) 5 1   (* → 32 *)
+```
+</details>
+
+---
+
+**Exercice B.5 — Tuples et listes** ⭐⭐⭐
+
+Écrivez `dezipper : ('a * 'b) list -> 'a list * 'b list` qui transforme une liste de paires en une paire de listes.
+
+Exemple : `dezipper [(1,'a'); (2,'b'); (3,'c')]` → `([1;2;3], ['a';'b';'c'])`.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec dezipper = function
+  | []            -> ([], [])
+  | (a, b) :: xs  ->
+    let (la, lb) = dezipper xs in
+    (a :: la, b :: lb)
+```
+</details>
+
+---
+
+**Exercice B.6 — Tri par insertion** ⭐⭐⭐
+
+Écrivez `inserer : int -> int list -> int list` qui insère un entier dans une liste déjà triée en ordre croissant. Utilisez-la pour écrire `tri_insertion : int list -> int list`.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec inserer x = function
+  | []      -> [x]
+  | y :: ys -> if x <= y then x :: y :: ys
+               else y :: inserer x ys
+
+let rec tri_insertion = function
+  | []      -> []
+  | x :: xs -> inserer x (tri_insertion xs)
+```
+</details>
 
 ---
 
@@ -542,19 +768,19 @@ Un tableau est une séquence **homogène**, **mutable**, de taille **fixée à l
 
 ```ocaml
 (* Création *)
-let t1 = [|1; 2; 3; 4; 5|]         (* littéral *)
-let t2 = Array.make 5 0             (* [|0;0;0;0;0|] *)
-let t3 = Array.init 5 (fun i -> i*i)(* [|0;1;4;9;16|] *)
+let t1 = [|1; 2; 3; 4; 5|]          (* littéral *)
+let t2 = Array.make 5 0              (* [|0;0;0;0;0|] *)
+let t3 = Array.init 5 (fun i -> i*i) (* [|0;1;4;9;16|] *)
 
 (* Accès *)
-let _ = t1.(0)                      (* → 1 : premier élément *)
-let _ = t1.(4)                      (* → 5 : dernier élément *)
+let _ = t1.(0)                       (* → 1 : premier élément *)
+let _ = t1.(4)                       (* → 5 : dernier élément *)
 
 (* Modification *)
-t1.(0) <- 99                        (* t1 devient [|99;2;3;4;5|] *)
+t1.(0) <- 99                         (* t1 devient [|99;2;3;4;5|] *)
 
 (* Taille *)
-let n = Array.length t1             (* → 5 *)
+let n = Array.length t1              (* → 5 *)
 
 (* Parcours classique *)
 for i = 0 to Array.length t1 - 1 do
@@ -617,9 +843,9 @@ print_newline ()            (* équivalent à print_string "\n" *)
 print_endline "Bonjour"     (* print_string + print_newline *)
 
 (* Lecture *)
-let n   = read_int ()       (* lit un entier depuis stdin *)
-let x   = read_float ()     (* lit un flottant *)
-let s   = read_line ()      (* lit une ligne *)
+let n = read_int ()         (* lit un entier depuis stdin *)
+let x = read_float ()       (* lit un flottant *)
+let s = read_line ()        (* lit une ligne *)
 ```
 
 #### Arguments en ligne de commande
@@ -664,6 +890,149 @@ with End_of_file ->
 
 ---
 
+### 🟡 Exercices — Partie C
+
+**Exercice C.1 — Références** ⭐
+
+Que valent `!a` et `!b` à la fin de ce code ? Justifiez.
+
+```ocaml
+let a = ref 10
+let b = ref 3
+a := !a + !b;
+b := !a - !b;
+a := !a - !b
+```
+
+<details>
+<summary>Solution</summary>
+
+Après `a := !a + !b` : `a = 13`, `b = 3`.  
+Après `b := !a - !b` : `a = 13`, `b = 10`.  
+Après `a := !a - !b` : `a = 3`, `b = 10`.
+
+Les valeurs de `a` et `b` ont été **échangées** ! C'est le schéma classique d'échange sans variable temporaire via les références.
+</details>
+
+---
+
+**Exercice C.2 — Boucle for** ⭐
+
+Écrivez une fonction `factorielle_imp : int -> int` qui calcule $n!$ de façon **impérative** avec une boucle `for` et une référence.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let factorielle_imp n =
+  let res = ref 1 in
+  for i = 2 to n do
+    res := !res * i
+  done;
+  !res
+```
+</details>
+
+---
+
+**Exercice C.3 — Boucle while** ⭐⭐
+
+Écrivez une fonction `pgcd_imp : int -> int -> int` qui calcule le PGCD de deux entiers positifs par l'**algorithme d'Euclide** avec une boucle `while`.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let pgcd_imp a b =
+  let x = ref a and y = ref b in
+  while !y <> 0 do
+    let r = !x mod !y in
+    x := !y;
+    y := r
+  done;
+  !x
+```
+</details>
+
+---
+
+**Exercice C.4 — Tableaux** ⭐⭐
+
+Écrivez une fonction `somme_tableau : int array -> int` qui calcule la somme des éléments d'un tableau avec une boucle `for`, et `renverser : 'a array -> unit` qui renverse un tableau **en place**.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let somme_tableau t =
+  let s = ref 0 in
+  for i = 0 to Array.length t - 1 do
+    s := !s + t.(i)
+  done;
+  !s
+
+let renverser t =
+  let n = Array.length t in
+  for i = 0 to n / 2 - 1 do
+    let tmp = t.(i) in
+    t.(i) <- t.(n - 1 - i);
+    t.(n - 1 - i) <- tmp
+  done
+```
+</details>
+
+---
+
+**Exercice C.5 — Tri à bulles** ⭐⭐⭐
+
+Écrivez `tri_bulles : int array -> unit` qui trie un tableau d'entiers en place par la méthode du tri à bulles.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let tri_bulles t =
+  let n = Array.length t in
+  for i = 0 to n - 2 do
+    for j = 0 to n - 2 - i do
+      if t.(j) > t.(j + 1) then begin
+        let tmp = t.(j) in
+        t.(j) <- t.(j + 1);
+        t.(j + 1) <- tmp
+      end
+    done
+  done
+```
+</details>
+
+---
+
+**Exercice C.6 — Chaînes** ⭐⭐
+
+Écrivez une fonction `est_palindrome : string -> bool` qui teste si une chaîne est un palindrome (se lit de la même façon dans les deux sens). On ignorera la casse.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let est_palindrome s =
+  let s = String.lowercase_ascii s in
+  let n = String.length s in
+  let palindrome = ref true in
+  for i = 0 to n / 2 - 1 do
+    if s.[i] <> s.[n - 1 - i] then palindrome := false
+  done;
+  !palindrome
+
+(* Exemples *)
+let _ = est_palindrome "kayak"   (* → true *)
+let _ = est_palindrome "Radar"   (* → true *)
+let _ = est_palindrome "bonjour" (* → false *)
+```
+</details>
+
+---
+
 ## Partie D : Déclaration de types
 
 ### I. Type somme
@@ -685,7 +1054,7 @@ let aire f =
   | Cercle r     -> Float.pi *. r *. r
   | Rect (l, h)  -> l *. h
 
-let _ = aire (Cercle 3.0)   (* → 28.27... *)
+let _ = aire (Cercle 3.0)      (* → 28.27... *)
 let _ = aire (Rect (4.0, 5.0)) (* → 20.0 *)
 ```
 
@@ -779,6 +1148,141 @@ type 'a liste =
 
 ---
 
+### 🔴 Exercices — Partie D
+
+**Exercice D.1 — Type somme simple** ⭐
+
+Déclarez un type `saison` avec quatre constructeurs. Écrivez une fonction `saison_suivante : saison -> saison` et une fonction `est_chaude : saison -> bool` (considérer Été et Printemps comme chauds).
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+type saison = Printemps | Ete | Automne | Hiver
+
+let saison_suivante = function
+  | Printemps -> Ete
+  | Ete       -> Automne
+  | Automne   -> Hiver
+  | Hiver     -> Printemps
+
+let est_chaude = function
+  | Printemps | Ete -> true
+  | Automne | Hiver -> false
+```
+</details>
+
+---
+
+**Exercice D.2 — Type `option`** ⭐⭐
+
+Écrivez `recherche : 'a -> ('a * 'b) list -> 'b option` qui cherche une clé dans une liste de paires clé-valeur et renvoie `Some valeur` si trouvée, `None` sinon.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec recherche cle = function
+  | []              -> None
+  | (k, v) :: reste ->
+    if k = cle then Some v
+    else recherche cle reste
+
+(* Exemple *)
+let annuaire = [("Alice", 42); ("Bob", 37); ("Carol", 28)]
+let _ = recherche "Bob" annuaire   (* → Some 37 *)
+let _ = recherche "Dave" annuaire  (* → None *)
+```
+</details>
+
+---
+
+**Exercice D.3 — Type produit** ⭐⭐
+
+Déclarez un type `complexe` avec deux champs `re` et `im` de type `float`. Écrivez les fonctions :
+- `module_c : complexe -> float`
+- `ajoute : complexe -> complexe -> complexe`
+- `multiplie : complexe -> complexe -> complexe`
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+type complexe = { re : float; im : float }
+
+let module_c z = sqrt (z.re *. z.re +. z.im *. z.im)
+
+let ajoute z1 z2 = { re = z1.re +. z2.re; im = z1.im +. z2.im }
+
+let multiplie z1 z2 = {
+  re = z1.re *. z2.re -. z1.im *. z2.im;
+  im = z1.re *. z2.im +. z1.im *. z2.re
+}
+```
+</details>
+
+---
+
+**Exercice D.4 — Arbre binaire** ⭐⭐⭐
+
+En utilisant le type `'a arbre` défini dans le cours, écrivez :
+- `taille : 'a arbre -> int` — nombre de nœuds internes
+- `somme : int arbre -> int` — somme des valeurs
+- `appartient : 'a -> 'a arbre -> bool` — test d'appartenance
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+let rec taille = function
+  | Feuille         -> 0
+  | Noeud (g, _, d) -> 1 + taille g + taille d
+
+let rec somme = function
+  | Feuille         -> 0
+  | Noeud (g, v, d) -> somme g + v + somme d
+
+let rec appartient x = function
+  | Feuille         -> false
+  | Noeud (g, v, d) -> v = x || appartient x g || appartient x d
+```
+</details>
+
+---
+
+**Exercice D.5 — Expressions arithmétiques** ⭐⭐⭐
+
+Déclarez un type récursif `expr` représentant des expressions arithmétiques :
+- une constante entière (`Const of int`)
+- une addition (`Add of expr * expr`)
+- une multiplication (`Mul of expr * expr`)
+
+Écrivez `evalue : expr -> int` qui calcule la valeur d'une expression.
+
+Représentez et évaluez l'expression $(2 + 3) \times 4$.
+
+<details>
+<summary>Solution</summary>
+
+```ocaml
+type expr =
+  | Const of int
+  | Add   of expr * expr
+  | Mul   of expr * expr
+
+let rec evalue = function
+  | Const n       -> n
+  | Add (e1, e2)  -> evalue e1 + evalue e2
+  | Mul (e1, e2)  -> evalue e1 * evalue e2
+
+(* (2 + 3) × 4 *)
+let expr_exemple = Mul (Add (Const 2, Const 3), Const 4)
+let _ = evalue expr_exemple   (* → 20 *)
+```
+</details>
+
+---
+
 ## Annexe : Récapitulatif général
 
 ### Types de base
@@ -791,7 +1295,7 @@ type 'a liste =
 | `char` | Caractère (ASCII) | `'a'`, `'Z'`, `'\n'` |
 | `string` | Chaîne immuable | `"bonjour"`, `""` |
 | `unit` | Absence de valeur | `()` |
-| `'a list` | Liste homogène | `[1; 2; 3]`, `[]` |
+| `'a list` | Liste homogène immuable | `[1; 2; 3]`, `[]` |
 | `'a array` | Tableau mutable | `[|1; 2; 3|]` |
 | `'a * 'b` | Tuple | `(1, "ok")`, `(3.0, 4.0, true)` |
 | `'a option` | Valeur optionnelle | `Some 42`, `None` |
